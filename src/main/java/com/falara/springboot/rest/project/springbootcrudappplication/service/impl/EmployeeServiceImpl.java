@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
+    private static final String EMPLOYEE_NOT_FOUND_STRING = "Employee not found for this id: ";
     EmployeeRepository employeeRepository;
 
     @Override
@@ -30,7 +31,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeDTO getEmployeeById(Long employeeId) throws ResourceNotFoundException {
         EmployeeDTO employeeDTO = new EmployeeDTO();
         Employee employee = this.employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));
+                .orElseThrow(() -> new ResourceNotFoundException(EMPLOYEE_NOT_FOUND_STRING + employeeId));
         employeeDTO.setId(employee.getId());
         employeeDTO.setFirstName(employee.getFirstName());
         employeeDTO.setLastName(employee.getLastName());
@@ -48,7 +49,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDTO updateEmployee(EmployeeDTO employeeDTO, Long employeeId) throws ResourceNotFoundException {
         Employee existingEmployee = this.employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));
+                .orElseThrow(() -> new ResourceNotFoundException(EMPLOYEE_NOT_FOUND_STRING + employeeId));
         existingEmployee.setFirstName(employeeDTO.getFirstName());
         existingEmployee.setLastName(employeeDTO.getLastName());
         existingEmployee.setEmail(employeeDTO.getEmail());
@@ -59,7 +60,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void deleteEmployee(Long employeeId) throws ResourceNotFoundException {
         Employee existingEmployee = this.employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));
+                .orElseThrow(() -> new ResourceNotFoundException(EMPLOYEE_NOT_FOUND_STRING + employeeId));
         this.employeeRepository.delete(existingEmployee);
 
     }
