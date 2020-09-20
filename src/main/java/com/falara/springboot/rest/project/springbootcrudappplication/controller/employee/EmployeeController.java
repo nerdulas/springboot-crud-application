@@ -5,6 +5,7 @@ import com.falara.springboot.rest.project.springbootcrudappplication.exception.R
 import com.falara.springboot.rest.project.springbootcrudappplication.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,6 +52,12 @@ public class EmployeeController {
                                                    @RequestBody EmployeeDTO employee) throws ResourceNotFoundException {
         EmployeeDTO updatedEmployeeDTO = this.employeeService.updateEmployee(employee, employeeId);
         return ResponseEntity.ok().body(updatedEmployeeDTO);
+    }
+
+    @DeleteMapping("/employees/{id}")
+    public ResponseEntity<Object> deleteEmployee(@PathVariable(value = ID_STRING) Long employeeId) throws ResourceNotFoundException {
+        this.employeeService.deleteEmployee(employeeId);
+        return ResponseEntity.noContent().build();
     }
 
     @Autowired
