@@ -56,6 +56,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         return new EmployeeDTO(updatedEmployee.getId(), updatedEmployee.getFirstName(), updatedEmployee.getLastName(), updatedEmployee.getEmail());
     }
 
+    @Override
+    public void deleteEmployee(Long employeeId) throws ResourceNotFoundException {
+        Employee existingEmployee = this.employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));
+        this.employeeRepository.delete(existingEmployee);
+
+    }
+
     @Autowired
     public void setEmployeeRepository(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
