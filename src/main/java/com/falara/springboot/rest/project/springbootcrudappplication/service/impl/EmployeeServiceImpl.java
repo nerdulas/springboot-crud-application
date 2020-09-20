@@ -38,6 +38,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeDTO;
     }
 
+    @Override
+    public EmployeeDTO createEmployee(EmployeeDTO employeeDTO) {
+        Employee newEmployee = new Employee(employeeDTO.getFirstName(), employeeDTO.getLastName(), employeeDTO.getEmail());
+        Employee savedEmployee = this.employeeRepository.save(newEmployee);
+        return new EmployeeDTO(savedEmployee.getId(), savedEmployee.getFirstName(), savedEmployee.getLastName(), savedEmployee.getEmail());
+    }
+
     @Autowired
     public void setEmployeeRepository(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
